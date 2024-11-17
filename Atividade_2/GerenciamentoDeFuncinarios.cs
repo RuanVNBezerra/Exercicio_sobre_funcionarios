@@ -59,7 +59,7 @@ class GerenciamentoDeFuncinarios
 
 
             int contadorParaOrdenar = 1;
-            // loop foreach para exibir os funcionários ordenados por Nome e ID
+            // loop foreach para exibir os funcionários ordenados por Nome ou ID
             foreach (var funcionarios in listaOrdenada)
            {
             if(ordenarNomeOuId)
