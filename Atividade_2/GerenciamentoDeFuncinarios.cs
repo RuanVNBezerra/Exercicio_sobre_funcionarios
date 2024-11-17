@@ -27,11 +27,9 @@ class GerenciamentoDeFuncinarios
         {
             funcionarios.Remove(funcionariosParaRemover);
             Console.WriteLine("Funcionário removido com sucesso!");
+            return;
         }
-        else
-        {
             Console.WriteLine("Funcionário não encontrado!");
-        }
     }
     // função/metodo para buscar um funcionário com base no id
     public Funcionarios? BuscarFuncionario(Guid id)
@@ -39,7 +37,7 @@ class GerenciamentoDeFuncinarios
          return funcionarios.Find(funcionariosID => funcionariosID.ID == id);
     }
     // função/metodo para exibir todos os funcionários por Nome ou ID
-    public void ListarFuncionarios(bool ordenarPorNome)
+    public void ListarFuncionarios(bool ordenarNomeOuId)
     {
         if (funcionarios.Count == 0)
         {
@@ -48,22 +46,33 @@ class GerenciamentoDeFuncinarios
         }
         // usando IEnumerable para ordenar os funcionários por Nome ou ID
         IEnumerable<Funcionarios> listaOrdenada;
-        if (ordenarPorNome)
+        if (ordenarNomeOuId)
         {
+            Console.WriteLine("Ordenando por Nome...");
             listaOrdenada = funcionarios.OrderBy(funcionarios => funcionarios.Nome);
-            Console.WriteLine("Listando funcionários por Nome:");
         }
         else
         {
+            Console.WriteLine("Ordenando por ID...");
             listaOrdenada = funcionarios.OrderBy(funcionarios => funcionarios.ID);
-            Console.WriteLine("Listando funcionários por ID:");
         }
-        // loop foreach para exibir os funcionários ordenados por Nome ou ID
-        foreach (var funcionarios in listaOrdenada)
-        {
-            funcionarios.ExibirDados();
-            Console.WriteLine();
-        }
+
+
+            int contadorParaOrdenar = 1;
+            // loop foreach para exibir os funcionários ordenados por Nome e ID
+            foreach (var funcionarios in listaOrdenada)
+           {
+            if(ordenarNomeOuId)
+            {
+                // ordenando por nome
+                Console.WriteLine($"{contadorParaOrdenar}. Nome: {funcionarios.Nome}");
+            }
+            else
+            {
+                // ordenando por ID
+                Console.WriteLine($"{contadorParaOrdenar}. ID: {funcionarios.ID}");
+            }
+           }
     }
     // função/metodo para limpar todos os funcionários (limpar a memoria)
     public void LimparFuncionarios()

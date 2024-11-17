@@ -18,13 +18,10 @@ class Program
             Console.Write("Digite a opção desejada: ");
             string? input = Console.ReadLine();
             // usando if caso o usuário digite uma opção inválida
-            if (int.TryParse(input, out int opcao))
-            {
-               
-            }
-            else
+            if (!int.TryParse(input, out int opcao))
             {
                 Console.WriteLine("Opção inválida, tente novamente!");
+                continue;
             }
 
             // usando switch para chamar as funções/metodos de acordo com a opção escolhida
@@ -42,52 +39,46 @@ class Program
                     Console.Write("Digite o salário do funcionário: ");
                     string? salarioInput = Console.ReadLine();
                     // usando if para verificar se o salário é nulo ou se é um número válido
-                    if (salarioInput != null && float.TryParse(salarioInput, out float salario))
-                    {
-                        gerenciador.AdicionarFuncionario(nome, Guid.NewGuid(), salario);   
-                    }
-                    else
+                    if (salarioInput == null || !float.TryParse(salarioInput, out float salario))
                     {
                         Console.WriteLine("Salário inválido, tente novamente!");
+                        break;
                     }
-
+                    gerenciador.AdicionarFuncionario(nome, Guid.NewGuid(), salario);
                     break;
                 case 2:
                     Console.Write("Digite o ID do funcionário que deseja remover: ");
                     string? idRemoverInput = Console.ReadLine();
-                    if (Guid.TryParse(idRemoverInput, out Guid id))
-                    {
-                        gerenciador.RemoverFuncionario(id);
-                    }
-                    else
+                    if (!Guid.TryParse(idRemoverInput, out Guid id))
                     {
                         Console.WriteLine("ID não encontrado");
+                        break;
                     }
+                    gerenciador.RemoverFuncionario(id);
                     break;
                 case 3:
                     Console.Write("Digite o ID do funcionário que deseja buscar: ");
                     string? idBuscarUsuarioInput = Console.ReadLine();
-                    if(Guid.TryParse(idBuscarUsuarioInput, out Guid idBuscar))
-                    {
-                        gerenciador.BuscarFuncionario(idBuscar);
-                    }
-                    else
+                    if(!Guid.TryParse(idBuscarUsuarioInput, out Guid idBuscar))
                     {
                         Console.WriteLine("ID invalido. \n Usuario não achado");
+                        break;
                     }
+                    gerenciador.BuscarFuncionario(idBuscar);
                     break;
                 case 4:
                     Console.WriteLine("Deseja ordenar por Nome ou ID? (N/I)");
                     string? ordenarPor = Console.ReadLine();
-                    if (ordenarPor != null)
+                    if (ordenarPor == null)
                     {
-                        bool ordernarPorNome = ordenarPor.ToUpper() == "N";
-                        gerenciador.ListarFuncionarios(ordernarPorNome);
+                        Console.WriteLine("Entrada Invalida. \nTente novamente");
+                        break;
                     }
+                    bool ordenarPorNome = ordenarPor.ToUpper() == "N";
+                    gerenciador.ListarFuncionarios(ordenarPorNome);
                     break;
                 case 5:
-                    // GC.Collect() é usado para liberar a memória não utilizada pelo programa.
-                    GC.Collect();
+                    gerenciador.LimparFuncionarios();
                     Console.WriteLine("Memória liberada com sucesso!");
                     break;
                 case 6:
@@ -96,7 +87,6 @@ class Program
                 default:
                     Console.WriteLine("Opção inválida, tente novamente!");
                     break;
-
             }
         }
     }
